@@ -30,6 +30,10 @@ unitropico-eventos/
 └── db/
     └── schema.sql    # Script para crear la base de datos
 ```
+## 🏗️ Arquitectura
+
+![Diagrama de arquitectura de despliegue](docs/arquitectura.png)
+
 
 ## 🚀 Cómo ejecutarlo
 
