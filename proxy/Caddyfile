@@ -1,0 +1,6 @@
+# Si DOMAIN es un dominio real, Caddy consigue solo el certificado HTTPS.
+# Si es "localhost", usa un certificado local de pruebas.
+{$DOMAIN:localhost} {
+	encode gzip zstd
+	reverse_proxy web:80
+}

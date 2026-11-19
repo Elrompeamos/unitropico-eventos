@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="f" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#14532d"/></marker>
+  </defs>
+  <rect width="920" height="560" fill="#ffffff"/>
+  <text x="460" y="32" text-anchor="middle" font-size="22" font-weight="700" fill="#14532d">Arquitectura de despliegue — Unitrópico Eventos</text>
+
+  <!-- Internet -->
+  <rect x="30" y="200" width="130" height="80" rx="12" fill="#ecfdf5" stroke="#16a34a" stroke-width="2"/>
+  <text x="95" y="236" text-anchor="middle" font-size="16" font-weight="700">Usuario</text>
+  <text x="95" y="258" text-anchor="middle" font-size="13">Navegador</text>
+
+  <!-- Servidor -->
+  <rect x="215" y="60" width="680" height="470" rx="16" fill="#f8fafc" stroke="#475569" stroke-width="2" stroke-dasharray="8 5"/>
+  <text x="235" y="86" font-size="14" font-weight="700" fill="#475569">Servidor (VPS con Docker Compose)</text>
+
+  <!-- red frontend -->
+  <rect x="235" y="105" width="400" height="200" rx="12" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="250" y="125" font-size="12" fill="#166534">Red: frontend</text>
+  <!-- red backend -->
+  <rect x="425" y="215" width="455" height="170" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="440" y="235" font-size="12" fill="#1d4ed8">Red: backend (interna, sin acceso desde internet)</text>
+
+  <!-- proxy -->
+  <rect x="250" y="150" width="150" height="100" rx="12" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="325" y="182" text-anchor="middle" font-size="16" font-weight="700">proxy</text>
+  <text x="325" y="202" text-anchor="middle" font-size="13">Caddy 2</text>
+  <text x="325" y="222" text-anchor="middle" font-size="12">HTTPS · puertos 80/443</text>
+
+  <!-- web -->
+  <rect x="460" y="150" width="150" height="100" rx="12" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="535" y="182" text-anchor="middle" font-size="16" font-weight="700">web</text>
+  <text x="535" y="202" text-anchor="middle" font-size="13">Apache + PHP 8.3</text>
+  <text x="535" y="222" text-anchor="middle" font-size="12">Página y API /api</text>
+
+  <!-- db -->
+  <rect x="690" y="255" width="150" height="100" rx="12" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <text x="765" y="287" text-anchor="middle" font-size="16" font-weight="700">db</text>
+  <text x="765" y="307" text-anchor="middle" font-size="13">MySQL 8.0</text>
+  <text x="765" y="327" text-anchor="middle" font-size="12">Puerto 3306 (interno)</text>
+
+  <!-- volumenes -->
+  <rect x="250" y="400" width="150" height="60" rx="30" fill="#fef9c3" stroke="#a16207" stroke-width="1.5"/>
+  <text x="325" y="426" text-anchor="middle" font-size="13" font-weight="700">caddy_data</text>
+  <text x="325" y="444" text-anchor="middle" font-size="11">Certificados HTTPS</text>
+  <rect x="690" y="400" width="150" height="60" rx="30" fill="#fef9c3" stroke="#a16207" stroke-width="1.5"/>
+  <text x="765" y="426" text-anchor="middle" font-size="13" font-weight="700">db_data</text>
+  <text x="765" y="444" text-anchor="middle" font-size="11">Inscripciones guardadas</text>
+
+  <!-- flechas -->
+  <line x1="160" y1="240" x2="248" y2="205" stroke="#14532d" stroke-width="2.5" marker-end="url(#f)"/>
+  <text x="170" y="205" font-size="12" font-weight="700" fill="#14532d">HTTPS 443</text>
+  <line x1="400" y1="200" x2="458" y2="200" stroke="#14532d" stroke-width="2.5" marker-end="url(#f)"/>
+  <text x="404" y="190" font-size="11" fill="#14532d">HTTP</text>
+  <line x1="580" y1="250" x2="690" y2="285" stroke="#14532d" stroke-width="2.5" marker-end="url(#f)"/>
+  <text x="640" y="258" font-size="11" fill="#14532d">SQL</text>
+  <line x1="325" y1="250" x2="325" y2="398" stroke="#a16207" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#f)"/>
+  <line x1="765" y1="355" x2="765" y2="398" stroke="#a16207" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#f)"/>
+
+  <!-- CI/CD -->
+  <rect x="30" y="400" width="150" height="100" rx="12" fill="#fdf4ff" stroke="#9333ea" stroke-width="2"/>
+  <text x="105" y="432" text-anchor="middle" font-size="14" font-weight="700">GitHub Actions</text>
+  <text x="105" y="452" text-anchor="middle" font-size="12">Pruebas → build</text>
+  <text x="105" y="470" text-anchor="middle" font-size="12">→ despliegue</text>
+  <line x1="180" y1="450" x2="440" y2="480" stroke="#9333ea" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#f)"/>
+  <text x="300" y="498" text-anchor="middle" font-size="12" fill="#7e22ce">SSH: git pull + docker compose up -d --build</text>
+</svg>

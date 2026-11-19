@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unitrópico Eventos | Cartelera universitaria</title>
+  <meta name="description" content="Eventos de la Fundación Universitaria Internacional del Trópico Americano - Unitrópico.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="aviso">
+    Prototipo académico (Tecnologías Web 2026-B, Unitrópico). Los eventos, organizadores y compras son datos de ejemplo: aquí no se venden boletas reales.
+  </div>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a href="#inicio" class="logo">
+        <span class="logo__mark">U</span>
+        <span class="logo__text">Unitrópico <strong>Eventos</strong></span>
+      </a>
+      <nav class="nav">
+        <a href="#cartelera" class="nav__btn nav__btn--active" data-nav>Cartelera</a>
+        <a href="#como" class="nav__link" data-nav>Cómo inscribirte</a>
+        <a href="#publicar" class="nav__link" data-nav>Publicar evento</a>
+        <a href="#validar" class="nav__link" data-nav>Validar en puerta</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO + BUSCADOR -->
+  <section class="hero" id="inicio">
+    <div class="hero__inner">
+      <h1>Eventos en Unitrópico</h1>
+      <p>Consigue tu boleta con QR y entra sin filas a las actividades de tu universidad.</p>
+
+      <form class="filtros" id="filtros" autocomplete="off">
+        <div class="campo">
+          <label for="buscar">Buscar por nombre o lugar</label>
+          <input type="text" id="buscar" placeholder="Ej: hackathon, auditorio...">
+        </div>
+        <div class="campo">
+          <label for="categoria">Categoría</label>
+          <select id="categoria">
+            <option value="">Todas las categorías</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="desde">Desde</label>
+          <input type="date" id="desde">
+        </div>
+        <button type="button" class="btn btn--outline" id="limpiar">Limpiar filtros</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- CARTELERA -->
+  <main>
+    <section class="seccion" id="cartelera">
+      <div class="seccion__head">
+        <h2>Próximos eventos</h2>
+        <span class="contador" id="contador" aria-live="polite">Cargando...</span>
+      </div>
+      <div class="grid" id="grid"></div>
+      <p class="vacio" id="vacio" hidden>No encontramos eventos con esos filtros. Prueba con otra búsqueda.</p>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section class="seccion pasos" id="como">
+      <div class="seccion__head"><h2>¿Cómo inscribirte?</h2></div>
+      <ol class="pasos__lista">
+        <li><span>1</span><div><strong>Elige un evento</strong><p>Usa el buscador o las categorías para encontrarlo.</p></div></li>
+        <li><span>2</span><div><strong>Llena tus datos</strong><p>Nombre, documento, carrera y semestre.</p></div></li>
+        <li><span>3</span><div><strong>Recibe tu boleta</strong><p>Obtienes un código QR para entrar sin filas.</p></div></li>
+      </ol>
+    </section>
+
+    <!-- PUBLICAR -->
+    <section class="seccion seccion--alt" id="publicar">
+      <div class="seccion__head">
+        <h2>Publicar evento</h2>
+      </div>
+      <p class="seccion__sub">¿Organizas algo en la universidad? Llena el formulario y aparecerá en la cartelera (se guarda en este navegador).</p>
+      <form class="form" id="form-publicar">
+        <div class="campo">
+          <label for="f-titulo">Nombre del evento *</label>
+          <input type="text" id="f-titulo" required maxlength="70">
+        </div>
+        <div class="campo">
+          <label for="f-categoria">Categoría *</label>
+          <select id="f-categoria" required></select>
+        </div>
+        <div class="campo">
+          <label for="f-fecha">Fecha *</label>
+          <input type="date" id="f-fecha" required>
+        </div>
+        <div class="campo">
+          <label for="f-hora">Hora *</label>
+          <input type="time" id="f-hora" required>
+        </div>
+        <div class="campo">
+          <label for="f-lugar">Lugar *</label>
+          <input type="text" id="f-lugar" required maxlength="60">
+        </div>
+        <div class="campo">
+          <label for="f-precio">Precio (COP, 0 = gratis)</label>
+          <input type="number" id="f-precio" min="0" step="1000" value="0">
+        </div>
+        <div class="campo campo--full">
+          <label for="f-desc">Descripción</label>
+          <textarea id="f-desc" rows="3" maxlength="300"></textarea>
+        </div>
+        <div class="campo campo--full">
+          <button type="submit" class="btn btn--primary">Publicar evento</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- VALIDAR -->
+    <section class="seccion" id="validar">
+      <div class="seccion__head">
+        <h2>Validar en puerta</h2>
+      </div>
+      <p class="seccion__sub">Ingresa el código de la boleta (ej: UT-A1B2C3) para comprobar si es válida.</p>
+      <form class="form form--inline" id="form-validar">
+        <div class="campo">
+          <label for="codigo">Código de la boleta</label>
+          <input type="text" id="codigo" placeholder="UT-XXXXXX" maxlength="12" required>
+        </div>
+        <button type="submit" class="btn btn--primary">Validar</button>
+      </form>
+      <div class="resultado" id="resultado" hidden></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><strong>Unitrópico Eventos</strong> · Proyecto académico · Yopal, Casanare</p>
+    <p>Fundación Universitaria Internacional del Trópico Americano</p>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="m-titulo">
+      <button class="modal__close" id="modal-close" aria-label="Cerrar">&times;</button>
+      <div class="modal__banner" id="m-banner"><span id="m-icono"></span></div>
+      <div class="modal__body">
+        <span class="chip" id="m-cat"></span>
+        <h3 id="m-titulo"></h3>
+        <p class="modal__meta" id="m-fecha"></p>
+        <p class="modal__meta" id="m-lugar"></p>
+        <p id="m-desc" class="modal__desc"></p>
+        <p class="modal__precio" id="m-precio"></p>
+
+        <form id="m-comprar" class="insc" novalidate>
+          <h4 class="insc__titulo">Tus datos de inscripción</h4>
+          <div class="insc__grid">
+            <div class="campo campo--full">
+              <label for="m-nombre">Nombre completo *</label>
+              <input type="text" id="m-nombre" placeholder="Nombres y apellidos" maxlength="60" autocomplete="name" required>
+            </div>
+            <div class="campo">
+              <label for="m-tipodoc">Tipo de documento *</label>
+              <select id="m-tipodoc" required>
+                <option value="CC">Cédula de ciudadanía</option>
+                <option value="TI">Tarjeta de identidad</option>
+                <option value="CE">Cédula de extranjería</option>
+                <option value="PA">Pasaporte</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label for="m-doc">Número de documento *</label>
+              <input type="text" id="m-doc" inputmode="numeric" placeholder="Sin puntos ni espacios" maxlength="12" required>
+            </div>
+            <div class="campo">
+              <label for="m-correo">Correo electrónico *</label>
+              <input type="email" id="m-correo" placeholder="nombre@correo.com" maxlength="80" autocomplete="email" required>
+            </div>
+            <div class="campo">
+              <label for="m-tel">Celular *</label>
+              <input type="tel" id="m-tel" inputmode="numeric" placeholder="3001234567" maxlength="10" autocomplete="tel" required>
+            </div>
+            <div class="campo campo--full">
+              <label for="m-tipo">Vinculación con la universidad *</label>
+              <select id="m-tipo" required>
+                <option value="Estudiante">Estudiante</option>
+                <option value="Egresado">Egresado</option>
+                <option value="Docente">Docente</option>
+                <option value="Administrativo">Administrativo</option>
+                <option value="Invitado">Invitado externo</option>
+              </select>
+            </div>
+            <div class="campo" id="w-carrera">
+              <label for="m-carrera">Carrera *</label>
+              <select id="m-carrera" required></select>
+            </div>
+            <div class="campo" id="w-semestre">
+              <label for="m-semestre">Semestre *</label>
+              <select id="m-semestre" required></select>
+            </div>
+          </div>
+          <label class="check">
+            <input type="checkbox" id="m-acepto" required>
+            <span>Autorizo el tratamiento de mis datos personales para gestionar mi inscripción a este evento.</span>
+          </label>
+          <p class="insc__error" id="m-error" role="alert" hidden></p>
+          <button type="submit" class="btn btn--primary btn--block" id="m-btn">Inscribirme</button>
+        </form>
+
+        <div id="m-boleta" class="boleta" hidden>
+          <canvas id="qr" width="180" height="180"></canvas>
+          <p class="boleta__codigo" id="b-codigo"></p>
+          <p class="boleta__nombre" id="b-nombre"></p>
+          <p class="boleta__detalle" id="b-detalle"></p>
+          <p class="boleta__nota">Inscripción exitosa. Presenta este código en la entrada. (QR de demostración)</p>
+          <button type="button" class="btn btn--outline btn--block" id="b-otra">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

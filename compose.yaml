@@ -1,0 +1,63 @@
+# Levanta todo con:  docker compose up -d --build
+services:
+  proxy:                      # Puerta de entrada: HTTPS automático
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    volumes:
+      - ./proxy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [frontend]
+    depends_on:
+      web:
+        condition: service_healthy
+
+  web:                        # Aplicación: Apache + PHP
+    build: .
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+      DB_NAME: ${DB_NAME:-unitropico_eventos}
+      DB_USER: ${DB_USER:?Falta DB_USER en .env}
+      DB_PASS: ${DB_PASS:?Falta DB_PASS en .env}
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@file_get_contents('http://127.0.0.1/api/health.php') ? 0 : 1);"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [frontend, backend]
+
+  db:                         # Base de datos (solo accesible desde la red interna)
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-unitropico_eventos}
+      MYSQL_USER: ${DB_USER:?Falta DB_USER en .env}
+      MYSQL_PASSWORD: ${DB_PASS:?Falta DB_PASS en .env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS:?Falta DB_ROOT_PASS en .env}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [backend]
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db_data:
+  caddy_data:
+  caddy_config:
