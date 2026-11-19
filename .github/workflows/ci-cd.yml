@@ -1,11 +1,56 @@
-# Copia este archivo como ".env" y cambia los valores.
-# El archivo ".env" NO se sube a GitHub (está en .gitignore).
+name: CI/CD
 
-# Dominio público. En tu computador déjalo como "localhost".
-# En el servidor pon tu dominio real, por ejemplo: eventos.duckdns.org
-DOMAIN=localhost
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
-DB_NAME=unitropico_eventos
-DB_USER=unitropico
-DB_PASS=cambia_esta_clave
-DB_ROOT_PASS=cambia_esta_clave_root
+jobs:
+  pruebas:
+    name: Pruebas y construcción de la imagen
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Revisar sintaxis de PHP
+        run: find api -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Revisar sintaxis de JavaScript
+        run: node --check app.js
+
+      - name: Preparar configuración de prueba
+        run: cp .env.example .env
+
+      - name: Construir imagen y levantar todo
+        run: docker compose up -d --build --wait
+
+      - name: Ejecutar pruebas de humo
+        run: bash tests/smoke.sh https://localhost
+
+      - name: Mostrar registros si algo falló
+        if: failure()
+        run: docker compose logs
+
+      - name: Apagar
+        if: always()
+        run: docker compose down -v
+
+  desplegar:
+    name: Desplegar en el servidor
+    needs: pruebas
+    # Solo despliega si creas la variable DEPLOY_ENABLED=true (Settings > Secrets and variables > Actions > Variables)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Actualizar y reiniciar en el servidor por SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/unitropico-eventos
+            git pull origin main
+            docker compose up -d --build
+            docker image prune -f
