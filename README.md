@@ -68,4 +68,4 @@ Base `unitropico_eventos`, tabla `inscripciones` (código, evento, datos del asi
 
 ## 👤 Autor
 
-Nombre del estudiante — Universidad Unitrópico
+Daniel Gómez pidiache — Universidad Unitrópico Del tropico Americano
