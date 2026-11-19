@@ -1,11 +1,12 @@
-# Copia este archivo como ".env" y cambia los valores.
-# El archivo ".env" NO se sube a GitHub (está en .gitignore).
+# Sistema y editor
+.DS_Store
+Thumbs.db
+.vs/
+.vscode/
+*.log
 
-# Dominio público. En tu computador déjalo como "localhost".
-# En el servidor pon tu dominio real, por ejemplo: eventos.duckdns.org
-DOMAIN=localhost
+# Copias de seguridad de la base de datos
+backup*.sql
 
-DB_NAME=unitropico_eventos
-DB_USER=unitropico
-DB_PASS=cambia_esta_clave
-DB_ROOT_PASS=cambia_esta_clave_root
+# Configuración local con claves reales
+.env
